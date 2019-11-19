@@ -1,15 +1,17 @@
-use std::fs::OpenOptions;
-use std::io::prelude::*;
+use std::fs::File;
+use std::io::ErrorKind;
 
 fn main() {
-    let mut file = OpenOptions::new()
-        .write(true)
-        .append(true)
-        .create(true)
-        .open("helloworld.txt")
-        .unwrap();
-
-    if let Err(e) = writeln!(file, "A new line!") {
-        eprintln!("Couldn't write to file: {}", e);
-    }
+    let f = File::open("hello2.txt").map_err(|error| {
+        if error.kind() == ErrorKind::NotFound {
+            File::create("hello.txt").unwrap_or_else(|error| {
+                panic!("Tried to create file but there was a problem: {:?}", error);
+            })
+        } else {
+            panic!("There was a problem opening the file: {:?}", error);
+        }
+    });
+    // if let Err(e) = writeln!(f, "A new line!") {
+    //     eprintln!("Couldn't write to file: {}", e);
+    // }
 }

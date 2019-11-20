@@ -1,11 +1,20 @@
 fn main() {
-    let s1 = String::from("hello");
-
-    let len = calculate_length(&s1);
-
-    println!("The length of '{}' is {}.", s1, len);
+    let reference_to_nothing = dangle();
 }
 
-fn calculate_length(s: &String) -> usize {
-    s.len()
+fn dangle() -> &String {
+    let s = String::from("hello");
+
+    &s
 }
+
+// correct
+// fn dangle() -> String {
+//     let s = String::from("hello");
+//
+//     s
+// }
+
+// 
+// At any given time, you can have either (but not both of) one mutable reference or any number of immutable references.
+// References must always be valid.

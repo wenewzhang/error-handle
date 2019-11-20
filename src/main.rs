@@ -1,14 +1,11 @@
 fn main() {
-    let string1 = String::from("abcd");
-    let string2 = "xyz";
+    let s1 = String::from("hello");
 
-    let result = longest(string1.as_str(), string2);
-    println!("The longest string is {}", result);
+    let len = calculate_length(&s1);
+
+    println!("The length of '{}' is {}.", s1, len);
 }
-fn longest(x: &str, y: &str) -> &str {
-    if x.len() > y.len() {
-        &x
-    } else {
-        &y
-    }
+
+fn calculate_length(s: &String) -> usize {
+    s.len()
 }

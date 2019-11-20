@@ -1,22 +1,23 @@
-struct Point<T, U> {
-    x: T,
-    y: U,
-}
 
-impl<T, U> Point<T, U> {
-    fn mixup<V, Z>(self, other: Point<V, Z>) -> Point<T, Z> {
-        Point {
-            x: self.x,
-            y: other.y,
-        }
-    }
-}
 
 fn main() {
-    let p1 = Point { x: 5, y: 10.4 };
-    let p2 = Point { x: "Hello", y: 'c'};
+    let r;
 
-    let p3 = p1.mixup(p2);
+    {
+        let x = 5;
+        r = &x;
+    }
 
-    println!("p3.x = {}, p3.y = {}", p3.x, p3.y);
+    println!("r: {}", r);
 }
+
+// {
+//     let x = 5;            // ----------+-- 'b
+//                           //           |
+//     let r = &x;           // --+-- 'a  |
+//                           //   |       |
+//     println!("r: {}", r); //   |       |
+//                           // --+       |
+// }                         // ----------+
+//
+// Listing 10-19: A valid reference because the data has a longer lifetime than the reference

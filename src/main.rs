@@ -1,17 +1,21 @@
-use std::thread;
-use std::time::Duration;
+#[derive(Debug)]
+struct Earth {
+  location: String,
+}
+
+#[derive(Debug)]
+struct Dinosaur<'a> {
+  location: &'a Earth,
+  name: String,
+}
 
 fn main() {
-     let handle = thread::spawn(|| {
-        for i in 1..10 {
-            println!("hi number {} from the spawned thread!", i);
-            thread::sleep(Duration::from_millis(1));
-        }
-    });
-
-    for i in 1..5 {
-        println!("hi number {} from the main thread!", i);
-        thread::sleep(Duration::from_millis(1));
-    }
-    handle.join().unwrap();
+  let new_york = Earth {
+    location: "New York, NY".to_string(),
+  };
+  let t_rex = Dinosaur {
+    location: &new_york,
+    name: "T Rex".to_string(),
+  };
+  println!("{:?}", t_rex);
 }

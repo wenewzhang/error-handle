@@ -1,36 +1,15 @@
-use std::env;
-use std::fs;
-
-fn main() {
-    let args: Vec<String> = env::args().collect();
-
-    let config = parse_config(&args);
-
-    println!("Searching for {}", config.query);
-    println!("In file {}", config.filename);
-
-    let contents = fs::read_to_string(config.filename)
-        .expect("Something went wrong reading the file");
-
-    // --snip--
+struct CustomSmartPointer {
+    data: String,
 }
 
-struct Config {
-    query: String,
-    filename: String,
-}
-
-impl Config {
-    fn new(args: &[String]) -> Config {
-        let query = args[1].clone();
-        let filename = args[2].clone();
-
-        Config { query, filename }
+impl Drop for CustomSmartPointer {
+    fn drop(&mut self) {
+        println!("Dropping CustomSmartPointer with data `{}`!", self.data);
     }
 }
-fn parse_config(args: &[String]) -> Config {
-    let query = args[1].clone();
-    let filename = args[2].clone();
 
-    Config { query, filename }
+fn main() {
+    let _c = CustomSmartPointer { data: String::from("my stuff") };
+    let _d = CustomSmartPointer { data: String::from("other stuff") };
+    println!("CustomSmartPointers created.");
 }
